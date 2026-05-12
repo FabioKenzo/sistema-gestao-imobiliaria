@@ -1,81 +1,69 @@
-# 📌 Sistema de Gestão Imobiliária (Java POO)
+# 🛒 Loja Virtual API
 
-Este projeto é uma solução robusta desenvolvida em Java para gerenciar as operações principais de uma imobiliária, incluindo o cadastro de imóveis, clientes, corretores e o controle de contratos e pagamentos. O foco principal foi a aplicação prática de **Programação Orientada a Objetos** e a implementação de rigorosas **regras de negócio**.
+Esta é uma API RESTful robusta desenvolvida para o gerenciamento de uma loja virtual, focada em escalabilidade, segurança e alta disponibilidade. O projeto foi construído utilizando as tecnologias mais recentes do ecossistema Java para garantir um backend de alta performance.
 
-## 🎯 Objetivo
-O sistema resolve problemas reais de integridade de dados no setor imobiliário, automatizando a transição de status de imóveis e validando documentos críticos como CPF e CRECI, garantindo que o fluxo de venda e locação seja livre de erros operacionais.
+## 🚀 Tecnologias Utilizadas
 
-## 🗂️ Estrutura do Projeto
-O projeto está organizado para seguir boas práticas de separação de responsabilidades:
-* `br.com.imobiliaria`: Contém as classes de domínio, Enums e toda a lógica de regras de negócio.
-* `userinterface`: Contém a classe `Main.java`, responsável pela interação com o usuário via console.
-
-## 🔑 Classes Principais e Validações
-
-### 👤 Cliente & Corretor
-* **CPF:** Validação obrigatória de exatamente 11 dígitos numéricos.
-* **CRECI:** Validação de registro profissional (numérico de 4 ou 6 dígitos).
-* **Telefone:** Padronização exigindo DDD (10 ou 11 dígitos).
-* **Duplicidade:** O sistema impede o cadastro de clientes com o mesmo CPF.
-
-### 🏠 Imóvel
-* **Integridade:** Endereço, cidade, tipo e status não podem ser nulos ou vazios.
-* **Medições:** Validação de área (sempre maior que zero).
-* **Atributos:** Controle completo de ID, quartos, banheiros e vagas de garagem.
-
-### 📜 Contrato & Pagamento
-* **Regra de Negócio:** Um contrato só pode ser gerado se o imóvel estiver com o status `DISPONÍVEL`.
-* **Automação de Status:** * Ao gerar contrato de **VENDA**, o imóvel muda automaticamente para `VENDIDO`.
-    * Ao gerar contrato de **ALUGUEL**, o imóvel muda automaticamente para `ALUGADO`.
-* **Financeiro:** Validação de pagamentos para que o valor pago não exceda o valor total do contrato.
-
-## 🛠️ Tecnologias e Conceitos
-* **Linguagem:** Java 21+ (Compilado com JDK 25).
-* **POO:** Uso intenso de Encapsulamento, Coleções (Listas para busca por CPF/CRECI) e Composição de objetos.
-* **Tratamento de Erros:** Uso de `try/catch` para capturar `IllegalArgumentException`, garantindo que o sistema não trave em caso de dados inválidos.
-* **Enums:** Padronização total de `StatusImovel`, `TipoContrato`, `TipoImovel` e `FormaPagamento`.
+* **Java 25**: Utilizando as funcionalidades mais recentes da linguagem para um código moderno e eficiente.
+* **Spring Boot 3**: Framework base para criação de microserviços e APIs rápidas.
+* **Spring Data JPA / Hibernate**: Para persistência de dados e mapeamento objeto-relacional.
+* **MySQL 8**: Banco de dados relacional para armazenamento seguro de informações.
+* **Docker & Docker Compose**: Containerização completa da aplicação e do banco de dados, facilitando o deploy.
+* **Swagger (OpenAPI 3)**: Documentação interativa para teste e visualização dos endpoints da API.
+* **Maven**: Gerenciador de dependências e automação do build.
 
 ---
 
-## 🖥️ Interface (Menu Interativo)
-O sistema conta com um menu via console que permite:
-1.  **Cadastrar Imóvel**
-2.  **Listar Imóveis**
-3.  **Buscar Imóvel por ID**
-4.  **Atualizar informações do Imóvel**
-5.  **Cadastrar Cliente**
-6.  **Cadastrar Corretor**
-7.  **Gerar Contrato (Venda/Aluguel)**
-8.  **Registrar Pagamento**
-9.  **Sair do Sistema**
+## 🛠️ O que foi implementado
+
+### 🏗️ Classes Principais e Validações
+* **Modelagem de Entidades (POO)**: Classes estruturadas com foco em Programação Orientada a Objetos, garantindo que atributos como nome, preço e estoque sigam regras de negócio rigorosas.
+* **Tratamento Global de Exceções**: Implementação de um `ResourceExceptionHandler` e classes de erro personalizadas para garantir que a API retorne respostas claras e padronizadas em caso de falhas.
+* **Validações de Dados**: Camada de lógica para assegurar a integridade e consistência dos dados persistidos no MySQL.
+
+### 🐳 Docker & Infraestrutura
+* **Dockerfile**: Configurado para criar imagens otimizadas utilizando o ambiente Java 25.
+* **Docker Compose**: Orquestração completa permitindo subir a API e o Banco de Dados com um único comando, garantindo portabilidade absoluta.
+
+### 🛡️ Segurança e Boas Práticas
+* **Segurança de Credenciais**: Implementação de `.gitignore` e arquivos de exemplo (`application.properties.example`) para garantir que senhas e dados sensíveis nunca sejam expostos no controle de versão.
 
 ---
 
-## 💻 Como Instalar e Rodar o Projeto
+## 📜 Documentação Interativa
+A API conta com documentação completa via Swagger. Após rodar o projeto, você pode visualizar e testar os endpoints em:
+`http://localhost:8080/swagger-ui.html`
 
-### Pré-requisitos
-* **Java JDK 17** ou superior instalado (Recomendado 21+).
-* **Git** instalado.
-* Editor de código (Recomendado: **Visual Studio Code**).
+---
 
-### Passo a Passo
+## 🔧 Como Rodar o Projeto
 
-1.  **Clone o repositório:**
+1. **Clone o repositório**:
     ```bash
-    git clone [https://github.com/FabioKenzo/sistema-gestao-imobiliaria.git](https://github.com/FabioKenzo/sistema-gestao-imobiliaria.git)
+    git clone https://github.com/FabioKenzo/loja-virtual-api.git
     ```
 
-2.  **Acesse a pasta do projeto:**
+2. **Suba os containers com Docker Compose**:
     ```bash
-    cd sistema-gestao-imobiliaria
+    docker-compose up -d
     ```
-
-3.  **Execução:**
-    * Abra o projeto no VS Code.
-    * Certifique-se de que as extensões de Java estão ativas.
-    * Execute a classe `Main.java`.
 
 ---
 
 ## 📈 Intuito Acadêmico
-Projeto desenvolvido por **Fabio Kenzo Okamura** como parte do aprofundamento em Java POO.
+
+Este projeto foi desenvolvido por **Fabio Kenzo Okamura** como parte de um plano estratégico de aprofundamento técnico em:
+* **Java (POO)** e padrões de projeto.
+* **Spring Boot** para APIs escaláveis.
+* **MySQL** para gerenciamento de dados relacionais.
+* **Swagger** para documentação profissional de software.
+* **Docker** para automação de infraestrutura e cultura DevOps.
+
+---
+
+## 👤 Autor
+
+**Fábio Kenzo Okamura**
+* Graduando em Análise e Desenvolvimento de Sistemas (ADS) - **UNITAU**.
+* Foco em Desenvolvimento Backend, Java e DevOps.
+
