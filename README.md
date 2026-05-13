@@ -1,69 +1,120 @@
-# 🛒 Loja Virtual API
+# 📌 Projeto: Sistema de Imobiliária (Java POO)
 
-Esta é uma API RESTful robusta desenvolvida para o gerenciamento de uma loja virtual, focada em escalabilidade, segurança e alta disponibilidade. O projeto foi construído utilizando as tecnologias mais recentes do ecossistema Java para garantir um backend de alta performance.
-
-## 🚀 Tecnologias Utilizadas
-
-* **Java 25**: Utilizando as funcionalidades mais recentes da linguagem para um código moderno e eficiente.
-* **Spring Boot 3**: Framework base para criação de microserviços e APIs rápidas.
-* **Spring Data JPA / Hibernate**: Para persistência de dados e mapeamento objeto-relacional.
-* **MySQL 8**: Banco de dados relacional para armazenamento seguro de informações.
-* **Docker & Docker Compose**: Containerização completa da aplicação e do banco de dados, facilitando o deploy.
-* **Swagger (OpenAPI 3)**: Documentação interativa para teste e visualização dos endpoints da API.
-* **Maven**: Gerenciador de dependências e automação do build.
+## 🎯 Objetivo
+Sistema de gerenciamento de imobiliária com cadastro de imóveis, clientes, corretores, contratos e pagamentos. Inclui regras de negócio e validações para garantir integridade dos dados.
 
 ---
 
-## 🛠️ O que foi implementado
-
-### 🏗️ Classes Principais e Validações
-* **Modelagem de Entidades (POO)**: Classes estruturadas com foco em Programação Orientada a Objetos, garantindo que atributos como nome, preço e estoque sigam regras de negócio rigorosas.
-* **Tratamento Global de Exceções**: Implementação de um `ResourceExceptionHandler` e classes de erro personalizadas para garantir que a API retorne respostas claras e padronizadas em caso de falhas.
-* **Validações de Dados**: Camada de lógica para assegurar a integridade e consistência dos dados persistidos no MySQL.
-
-### 🐳 Docker & Infraestrutura
-* **Dockerfile**: Configurado para criar imagens otimizadas utilizando o ambiente Java 25.
-* **Docker Compose**: Orquestração completa permitindo subir a API e o Banco de Dados com um único comando, garantindo portabilidade absoluta.
-
-### 🛡️ Segurança e Boas Práticas
-* **Segurança de Credenciais**: Implementação de `.gitignore` e arquivos de exemplo (`application.properties.example`) para garantir que senhas e dados sensíveis nunca sejam expostos no controle de versão.
+## 🗂️ Estrutura de Pastas
+- **br.com.imobiliaria** → Classes de domínio e regras de negócio  
+- **userinterface** → Interface de interação via console (classe Main)
 
 ---
 
-## 📜 Documentação Interativa
-A API conta com documentação completa via Swagger. Após rodar o projeto, você pode visualizar e testar os endpoints em:
-`http://localhost:8080/swagger-ui.html`
+## 🔑 Classes Principais e Validações
+
+### 👤 Cliente
+**Validações:**
+- CPF deve conter exatamente 11 dígitos numéricos.  
+- Telefone deve conter 10 ou 11 dígitos (DDD + número).  
+
+**Atributos:** nome, cpf, telefone, email.
 
 ---
 
-## 🔧 Como Rodar o Projeto
+### 🧑‍💼 Corretor
+**Validações:**
+- CRECI deve ser numérico e ter 4 ou 6 dígitos.  
+- Telefone deve conter 10 ou 11 dígitos.  
 
-1. **Clone o repositório**:
-    ```bash
-    git clone https://github.com/FabioKenzo/loja-virtual-api.git
-    ```
-
-2. **Suba os containers com Docker Compose**:
-    ```bash
-    docker-compose up -d
-    ```
+**Atributos:** nomeCorretor, creci, telefoneCorretor.
 
 ---
 
-## 📈 Intuito Acadêmico
+### 🏠 Imóvel
+**Validações:**
+- Tipo e Status não podem ser nulos.  
+- Endereço e cidade não podem ser nulos ou vazios.  
+- Área deve ser maior que zero.  
+
+**Atributos:** id, tipo, endereço, cidade, status, área, quartos, banheiros, vagas.
+
+---
+
+### 📄 Contrato
+**Validações:**
+- Cliente, imóvel, corretor e tipoContrato não podem ser nulos.  
+- Valor deve ser maior que zero.  
+- Data não pode ser nula.  
+- Imóvel deve estar **DISPONÍVEL** para gerar contrato.  
+
+**Regras de negócio:**
+- Se contrato for **VENDA**, imóvel passa para **VENDIDO**.  
+- Se contrato for **ALUGUEL**, imóvel passa para **ALUGADO**.  
+
+---
+
+### 💳 Pagamento
+**Validações:**
+- Contrato não pode ser nulo.  
+- Valor pago deve ser maior que zero e não pode exceder o valor do contrato.  
+- Data e forma de pagamento não podem ser nulos.  
+
+**Atributos:** contrato, valorPago, dataPagamento, formaPagamento.
+
+---
+
+### 🏢 Imobiliária
+**Funcionalidades:**
+- Cadastro de imóveis, clientes, corretores e contratos.  
+- Busca de clientes por CPF, corretores por CRECI e imóveis por ID.  
+- Registro de pagamentos vinculados a contratos.  
+- Listagem de imóveis cadastrados.  
+
+**Validações extras:**
+- Impede cadastro de cliente duplicado pelo CPF.  
+- Impede registro de pagamento inválido.  
+
+---
+
+## 📚 Enums
+- **StatusImovel:** DISPONIVEL, VENDIDO, ALUGADO  
+- **TipoContrato:** VENDA, ALUGUEL  
+- **TipoImovel:** CASA, APARTAMENTO, TERRENO  
+- **FormaPagamento:** PIX, BOLETO, CARTAO, DINHEIRO  
+
+---
+
+## 🖥️ Interface (Main.java)
+Menu interativo via console com opções:
+- Cadastrar Imóvel  
+- Listar Imóveis  
+- Buscar Imóvel por ID  
+- Atualizar informações do Imóvel  
+- Cadastrar Cliente  
+- Cadastrar Corretor  
+- Gerar Contrato (Venda/Aluguel)  
+- Registrar Pagamento  
+- Sair do Sistema  
+
+**Tratamento de erros:**
+- Uso de `try/catch` para capturar `IllegalArgumentException`.  
+- Mensagens claras de sucesso ou erro para o usuário.
+
+---
+
+## 🎓 Intuito Acadêmico
 
 Este projeto foi desenvolvido por **Fabio Kenzo Okamura** como parte de um plano estratégico de aprofundamento técnico em:
-* **Java (POO)** e padrões de projeto.
-* **Spring Boot** para APIs escaláveis.
-* **MySQL** para gerenciamento de dados relacionais.
-* **Swagger** para documentação profissional de software.
-* **Docker** para automação de infraestrutura e cultura DevOps.
+- **Java (POO)** e boas práticas de modelagem.  
+- **Aplicação de conceitos de herança, polimorfismo e encapsulamento**.  
+- **Estruturação de sistemas orientados a objetos**.  
 
 ---
 
-## 👤 Autor
+## 👨‍💻 Autor
 
-**Fábio Kenzo Okamura**
-* Graduando em Análise e Desenvolvimento de Sistemas (ADS) - **UNITAU**.
-* Foco em Desenvolvimento Backend, Java e DevOps.
+**Fábio Kenzo Okamura**  
+Graduando em Análise e Desenvolvimento de Sistemas (ADS) - **UNITAU**.  
+Foco em Desenvolvimento Backend e Programação Orientada a Objetos.
 
